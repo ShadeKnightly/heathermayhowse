@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    tools{
-                nodejs 'Node20'
-                }
-
     stages {
             stage('Build'){
             steps{
@@ -16,7 +12,12 @@ pipeline {
         stage('Test'){
             steps{
                 echo 'Running tests...'
-                sh 'npm test' -- --watchAll=false
+                sh 'npm test -- --watchAll=false'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'npx netlify-cli deploy --prod --dir=build --site=$NETLIFY_SITE_ID --auth=$NETLIFY_TOKEN'
             }
         }
     }
