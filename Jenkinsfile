@@ -1,34 +1,23 @@
 pipeline {
     agent any
 
-    stages {
-
-        stage('Build') {
-
-            agent {
-                docker {
-                    image 'node:18'
-                    reuseNode true
+    tools{
+                nodejs 'Node20'
                 }
+
+    stages {
+            stage('Build'){
+            steps{
+                echo 'Building the application...'
+                sh 'npm install'
+                sh 'npm run build'
             }
-
-            steps {
-                sh '''
-                echo "Before build:"
-                ls -la
-
-                node --version
-                npm --version
-
-                npm install
-                npm run build
-
-                echo "After build:"
-                ls -la
-                '''
-            }
-
         }
-
+        stage('Test'){
+            steps{
+                echo 'Running tests...'
+                sh 'npm test' -- --watchAll=false
+            }
+        }
     }
 }
