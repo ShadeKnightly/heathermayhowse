@@ -19,16 +19,6 @@ pipeline {
                 sh 'npm test -- --watchAll=false'
             }
         }
-        stage('Deploy'){
-            steps{
-                echo 'Deploying the application...'
-                // Add deployment steps here
-                //local 
-                sh 'npm run deploy'
-
-
-            }
-        }
 
     }
 }
